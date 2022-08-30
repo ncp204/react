@@ -1,12 +1,13 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import {memo} from "react";
 
-function Content() {
+function Content({onIncrease}) {
     console.log('re-render')
     return (
-        <div>
-            <h1>Hello</h1>
-        </div>
+        <>
+            <h1>XinChao</h1>
+            <button onClick={onIncrease}>Click me</button>
+        </>
     )
 }
 
-export default React.memo(Content);
+export default memo(Content);

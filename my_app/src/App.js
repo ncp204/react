@@ -1,28 +1,27 @@
 import './App.css';
-import {useEffect, useRef, useState} from 'react';
+import {useState, useCallback} from 'react';
 import React from "react";
 import Content from "./Content";
 
-// 1. memo() -> Higher Order Component (HOC)
-// 2. useCallback()
+// Chủ yếu dùng để kết hợp với memo khi có sự thay đổi từ compenent con sang cha mà component con ko bị ảnh hưởng
 
-// Hooks
-// HOC
-// Render props
+// 1. memo() -> Higher Order Component (HOC)
+// 2. useCallback(): tránh tạo ra hàm mới ko cần thiết trong function component
+//      - Reference types
+//      - React memo()
+
 
 function App() {
     const [count, setCount] = useState(0);
 
-    const increase = () => {
-        setCount(count + 1)
-    }
-
+    const handleIncrease = useCallback(() => {
+        setCount(prevState => prevState + 1)
+    }, [])
 
     return (
         <div style={{padding: 20}}>
-            <Content/>
+            <Content onIncrease={handleIncrease}/>
             <h1>{count}</h1>
-            <button onClick={increase}>Click me</button>
         </div>
     );
 }

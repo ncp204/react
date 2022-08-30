@@ -1,18 +1,47 @@
 import './App.css';
-import { useState } from 'react';
-import Content from './Content';
+import {useEffect, useRef, useState} from 'react';
+import React from "react";
+
+// Lưu các giá trị qua một tham chiếu bên ngoài
+// Function component
 
 function App() {
-  const [show, setShow] = useState(false);
+    const [count, setCount] = useState(60);
 
-  return (
-    <div className="App">
-      <div style={{ padding: 32 }}>
-        <button onClick={() => setShow(!show)}>Toggle</button>
-        {show && <Content />}
-      </div>
-    </div>
-  );
+    const timerId = useRef();
+    const prevCount = useRef();
+
+    const h1Ref = useRef()
+
+    useEffect(() => {
+        prevCount.current = count;
+    }, [count])
+
+    useEffect(() => {
+        const rect = h1Ref.current.getBoundingClientRect();
+        console.log(rect)
+    })
+
+    const handleStart = () => {
+        timerId.current = setInterval(()=>{
+            setCount(prevState => prevState -1)
+        }, 1000)
+    }
+
+    const handleStop = () => {
+        clearInterval(timerId.current);
+    }
+
+    console.log(count, prevCount.current)
+
+    return (
+        <div style={{ padding: 20 }}>
+            <h1 ref={h1Ref}>{count}</h1>
+            <button onClick={handleStart}>Start</button>
+            <button onClick={handleStop}>Stop</button>
+        </div>
+    );
 }
+
 
 export default App;
